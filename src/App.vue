@@ -1,18 +1,28 @@
 <script>
+import Alert from './components/Alert.vue';
 export default {
+  components: {
+    Alert,
+  },
   data() {
     return {
       todoTitle: '',
-      todos : []
+      todos: [],
+      showAlert: false
     }
   },
   methods: {
     addTodo(){
-      const todo = {
-        tittle: this.todoTitle,
-        id: Math.floor(Math.random() * 1000)
+      const tittle = this.todoTitle;
+      if (tittle !== '') {
+        const todo = {
+          tittle: tittle,
+          id: Math.floor(Math.random() * 1000)
+        }
+        this.todos.unshift(todo);
+      } else {
+        this.showAlert = true;
       }
-      this.todos.unshift(todo);
       //this.todos = this.todos.concat([this.todoTitle]);
     },
     removeTodo(tittle){
@@ -28,6 +38,12 @@ export default {
     <div class="brand">Todo List App</div>
   </nav>
   <main class="container">
+    <Alert 
+      message="Todo tittle is required"
+      type="warning"
+      :show="showAlert" 
+      @close="showAlert = false"
+    />
     <section>
       <form class="add-todo-form">
         <input v-model="todoTitle" type="text" placeholder="Todo tittle"><!--so important-->
@@ -90,5 +106,6 @@ export default {
   font-size: 30px;
   color: var(--text-color);
   background-color: var(--danger-color);
+  cursor: pointer;
 }
 </style>
