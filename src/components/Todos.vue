@@ -1,20 +1,35 @@
 <script>
+import BTN from './SeptupButton.vue';
 export default {
+  components: { BTN },
   props:{
     todo: {
       required: true,
       type: Array
     }
   },
-  emits: ['delete'],
+  emits: ['delete', 'edit']
 }
 </script>
 <template>
   <div v-for="data of todo" class="todo" :key="data.id">
     <p>{{ data.tittle }}</p>
-    <dir>
-      <button @click="$emit('delete', data.id)" class="remove-todo-btn">&times;</button>
-    </dir>
+    <div>
+      <BTN 
+        circle
+        @click="$emit('edit', data.id)"
+        type="info"
+      >
+        <img src="../assets/pensil.svg" alt="Logo" width="20">
+      </BTN>
+      <BTN 
+        circle
+        @click="$emit('delete', data.id)"
+        type="danger"
+      >
+        <img src="../assets/trash.svg" alt="Logo" width="20">
+      </BTN>
+    </div>
   </div>
 </template>
 <style scoped>
@@ -24,17 +39,10 @@ export default {
   align-items: center;
   background-color: var(--accent-color);
   margin-top: 30px;
-  padding: 0 20px 0 20px;
+  padding: 0 20px;
   border-radius: 10px;
 }
-.remove-todo-btn {
-  border-radius: 50%;
-  border: none;
-  height: 40px;
-  width: 40px;
-  font-size: 30px;
-  color: var(--text-color);
-  background-color: var(--danger-color);
-  cursor: pointer;
+.todo > div {
+  display: flex;
 }
 </style>

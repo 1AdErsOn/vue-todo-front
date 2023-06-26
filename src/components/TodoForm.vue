@@ -1,5 +1,7 @@
 <script>
+import BTN from './SeptupButton.vue';
 export default {
+  components: { BTN },
   data() {
     return {
       todoTitle: ''
@@ -12,24 +14,23 @@ export default {
   <form class="add-todo-form">
     <input v-model="todoTitle" type="text" placeholder="Todo tittle"><!--so important-->
     <div>
-      <button @click.prevent="$emit('submit', todoTitle)">Add Todo</button>
+      <BTN 
+        @click.prevent="$emit('submit', todoTitle)"
+        type="success"
+      >
+        Add Todo
+      </BTN>
     </div>
   </form>
 </template>
 <style scoped>
-.add-todo-form {
+form {
   display: flex;
   justify-content: space-between;
 }
-.add-todo-form input {
+form input {
   width: 80%;
   border: solid 2px var(--accent-color);
   padding: 10px;
-}
-.add-todo-form button {
-  background-color: var(--accent-color);
-  color: var(--text-color);
-  border: none;
-  height: 50px;
 }
 </style>

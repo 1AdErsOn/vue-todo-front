@@ -8,6 +8,7 @@
   --danger-color: #E06C75;
   --warning-color: #E5C07B;
   --info-color: #61AFEF;
+  --success-color: aquamarine;
 }
 html {
   background-color: var(--bagckground-color);
