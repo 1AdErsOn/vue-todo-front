@@ -4,13 +4,15 @@ import Navbar from './components/Navbar.vue';
 import Modal from './components/Modal.vue';
 import TodoForm from './components/TodoForm.vue';
 import Todos from './components/Todos.vue';
+import Spinner from './components/Spinner.vue';
 export default {
   components: {
     Alert,
     Navbar,
     TodoForm,
     Todos,
-    Modal
+    Modal,
+    Spinner
 },
   data() {
     return {
@@ -20,6 +22,8 @@ export default {
         message: "",
         type: "warning"
       },
+      isLoading: false,
+      isPostingTodo: false,
       editTodoForm: {
         show: false,
         todo: {
@@ -39,15 +43,20 @@ export default {
       this.alert.show = true;
     },
     fetchTodos() {
+      this.isLoading = true;
       fetch('http://localhost:8080/todos/')
       .then(resp => resp.json())
-      .then(data => this.todos = data)
+      .then(data => {
+        this.isLoading = false;
+        this.todos = data;
+      })
       .catch(err => this.showAlert('Failing loading Todos...'));
       //console.log(todos);
     },
     addTodo(tittle){
       if (tittle !== '') {
         this.alert.show = false;
+        this.isPostingTodo = true;
         const todo = { tittle };
         fetch('http://localhost:8080/todos/', {
             method: 'POST',
@@ -56,7 +65,10 @@ export default {
             },
             body: JSON.stringify(todo)
         }).then(resp => resp.json()) //console.log(result);
-        .then(data => this.todos.unshift(data)) //this.fetchTodos();
+        .then(data => {
+          this.isPostingTodo = false;
+          this.todos.unshift(data);
+        }) //this.fetchTodos();
         .catch(err => this.showAlert('Failing creating Todo...'));
       } else {
         this.showAlert('Tittle Field is Required','warning');
@@ -64,16 +76,19 @@ export default {
       //this.todos = this.todos.concat([this.todoTitle]);
     },
     removeTodo(id) {
+      //this.isLoading = true;
       fetch('http://localhost:8080/todos/' + id, {
         method: 'DELETE',
-      }).then(() => this.todos = this.todos.filter(todo => todo.id !== id))
+      }).then(() => {
+        //this.isLoading = false;
+        this.todos = this.todos.filter(todo => todo.id !== id)
+      })
       .catch(err => this.showAlert('Failing removing Todo...'));
     },
     updateTodo() {
+      //this.isLoading = true;
       const todo = this.editTodoForm.todo;
       const id = this.editTodoForm.todo.id;
-      /* const index = this.todos.findIndex(todo => todo.id === this.editTodoForm.todo.id);
-      this.todos[index].tittle = this.editTodoForm.todo.tittle; */
       /* const todo = this.todos.find(
         (todo) => todo.id === this.editTodoForm.todo.id
       ); */
@@ -85,6 +100,7 @@ export default {
         }
       }).then(resp => resp.json())
       .then(data => {
+        //this.isLoading = false;
         const index = this.todos.findIndex(todo => todo.id === data.id);
         this.todos[index] = todo;
       })
@@ -127,9 +143,13 @@ export default {
       @close="alert.show = false"
     />
     <section>
-      <TodoForm @submit="addTodo" />
+      <TodoForm 
+        :isLoading="isPostingTodo"
+        @submit="addTodo" 
+      />
     </section>
     <section>
+      <Spinner class="spinner" v-if="isLoading" />
       <Todos 
       :todos="todos"
       @delete="removeTodo"
@@ -148,5 +168,9 @@ form input {
   width: 80%;
   border: solid 2px var(--accent-color);
   padding: 10px;
+}
+.spinner {
+  margin: auto;
+  margin-top: 30px;
 }
 </style>
