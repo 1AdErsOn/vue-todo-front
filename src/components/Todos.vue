@@ -3,7 +3,7 @@ import BTN from './SeptupButton.vue';
 export default {
   components: { BTN },
   props:{
-    todo: {
+    todos: {
       required: true,
       type: Array
     }
@@ -12,7 +12,7 @@ export default {
 }
 </script>
 <template>
-  <div v-for="data of todo" class="todo" :key="data.id">
+  <div v-for="data of todos" class="todo" :key="data.id">
     <p>{{ data.tittle }}</p>
     <div>
       <BTN 

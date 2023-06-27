@@ -12,7 +12,8 @@ export default {
     type: {
       dafault: 'danger',
       validator(value) {
-        return ['danger', 'warning', 'info'].includes(value);
+        const options = ['danger', 'warning', 'info'];
+        return options.includes(value);
       }
     }
   },

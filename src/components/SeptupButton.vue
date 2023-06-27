@@ -29,17 +29,15 @@ export default {
       return this.circle;
     }
   },
-  emits: ['action']
 }
 </script>
 <template>
-  <Button 
-    @click.prevent="$emit('action')" 
+  <button  
     :style="{ backgroundColor }"
     :class="{ circle:applyCircleClass }"
   >
     <slot />
-  </Button>
+  </button>
 </template>
 <style scoped>
 button {
