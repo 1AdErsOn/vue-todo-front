@@ -15,43 +15,81 @@ export default {
   data() {
     return {
       todos: [],
-      showAlert: false,
+      alert: {
+        show: false,
+        message: "",
+        type: "warning"
+      },
       editTodoForm: {
         show: false,
         todo: {
           id: 0,
-          tittle: "",
-        },
+          tittle: ""
+        }
       }
     }
   },
+  created() {
+    this.fetchTodos();
+  },
   methods: {
+    showAlert(message, type = "danger") {
+      this.alert.message = message;
+      this.alert.type = type;
+      this.alert.show = true;
+    },
+    fetchTodos() {
+      fetch('http://localhost:8080/todos/')
+      .then(resp => resp.json())
+      .then(data => this.todos = data)
+      .catch(err => this.showAlert('Failing loading Todos...'));
+      //console.log(todos);
+    },
     addTodo(tittle){
       if (tittle !== '') {
-        this.showAlert = false;
-        const todo = {
-          tittle,
-          id: Math.floor(Math.random() * 1000)
-        }
-        this.todos.unshift(todo);
+        this.alert.show = false;
+        const todo = { tittle };
+        fetch('http://localhost:8080/todos/', {
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json' // Indicates the content 
+            },
+            body: JSON.stringify(todo)
+        }).then(resp => resp.json()) //console.log(result);
+        .then(data => this.todos.unshift(data)) //this.fetchTodos();
+        .catch(err => this.showAlert('Failing creating Todo...'));
       } else {
-        this.showAlert = true;
+        this.showAlert('Tittle Field is Required','warning');
       }
       //this.todos = this.todos.concat([this.todoTitle]);
     },
     removeTodo(id) {
-      this.todos = this.todos.filter(todo => todo.id !== id);
+      fetch('http://localhost:8080/todos/' + id, {
+        method: 'DELETE',
+      }).then(() => this.todos = this.todos.filter(todo => todo.id !== id))
+      .catch(err => this.showAlert('Failing removing Todo...'));
     },
     updateTodo() {
-      if(this.editTodoForm.todo.id !== 0){
-        const index = this.todos.findIndex(todo => todo.id === this.editTodoForm.todo.id);
-        this.todos[index].tittle = this.editTodoForm.todo.tittle;
-        /* const todo = this.todos.find(
-          (todo) => todo.id === this.editTodoForm.todo.id
-        );
-        todo.title = this.editTodoForm.todo.title; */
-        this.editTodoForm.show = false;
-      }
+      const todo = this.editTodoForm.todo;
+      const id = this.editTodoForm.todo.id;
+      /* const index = this.todos.findIndex(todo => todo.id === this.editTodoForm.todo.id);
+      this.todos[index].tittle = this.editTodoForm.todo.tittle; */
+      /* const todo = this.todos.find(
+        (todo) => todo.id === this.editTodoForm.todo.id
+      ); */
+      fetch('http://localhost:8080/todos/' + id, {
+        method: "PUT",
+        body: JSON.stringify(todo),
+        headers: {
+            "Content-Type": "application/json",
+        }
+      }).then(resp => resp.json())
+      .then(data => {
+        const index = this.todos.findIndex(todo => todo.id === data.id);
+        this.todos[index] = todo;
+      })
+      .catch(err => this.showAlert('Failing updating Todo...'));
+      this.editTodoForm.show = false;
     },
     seeTodo(id) {
       this.editTodoForm.show = true;
@@ -83,10 +121,10 @@ export default {
       </template>
     </Modal>
     <Alert 
-      message="Todo tittle is required"
-      type="warning"
-      :show="showAlert" 
-      @close="showAlert = false"
+      :message="alert.message"
+      :type="alert.type"
+      :show="alert.show" 
+      @close="alert.show = false"
     />
     <section>
       <TodoForm @submit="addTodo" />

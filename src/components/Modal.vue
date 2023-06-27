@@ -16,12 +16,13 @@ export default {
         }
       },
       closeOnEscapeListener: (e) => {
+        //e.preventDefault();
         if (e.key === "Escape") {
           this.$emit('close');
         }
-        if (e.key === "Enter") {
+        /* if (e.key === "Enter") {
           this.$emit('update');
-        }
+        } */
       }
     };
   },
