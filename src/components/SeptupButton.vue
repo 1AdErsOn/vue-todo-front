@@ -1,7 +1,7 @@
 <script>
 export default {
   props: {
-    type: {
+    variant: {
       required: true,
       dafault: 'success',
       validator(value) {
@@ -23,7 +23,7 @@ export default {
         success: 'var(--accent-color)',
         secondary: 'var(--success-color)'
       };
-      return options[this.type];
+      return options[this.variant];
     },
     applyCircleClass() {
       return this.circle;

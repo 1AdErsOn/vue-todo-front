@@ -16,9 +16,10 @@ export default {
     <div>
       <BTN 
         @click.prevent="$emit('submit', todoTitle)"
-        type="success"
+        variant="success"
+        type="submit"
       >
-        Add Todo
+        ADD TODO
       </BTN>
     </div>
   </form>

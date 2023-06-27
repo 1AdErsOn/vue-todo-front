@@ -18,14 +18,14 @@ export default {
       <BTN 
         circle
         @click="$emit('edit', data.id)"
-        type="info"
+        variant="info"
       >
         <img src="../assets/pensil.svg" alt="Logo" width="20">
       </BTN>
       <BTN 
         circle
         @click="$emit('delete', data.id)"
-        type="danger"
+        variant="danger"
       >
         <img src="../assets/trash.svg" alt="Logo" width="20">
       </BTN>

@@ -51,13 +51,13 @@ export default {
       </div>
       <div class="modal-footer">
         <BTN
-          type="warning"
+          variant="warning"
           @click="$emit('close')"
         >
           CLOSE
         </BTN>
         <BTN
-          type="success"
+          variant="success"
           @click="$emit('update')"
         >
           UPDATE
