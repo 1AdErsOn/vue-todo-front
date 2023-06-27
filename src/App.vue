@@ -43,18 +43,20 @@ export default {
       this.todos = this.todos.filter(todo => todo.id !== id);
     },
     updateTodo() {
-      const index = this.todos.findIndex(todo => todo.id === this.editTodoForm.todo.id);
-      this.todos[index].tittle = this.editTodoForm.todo.tittle;
-      /* const todo = this.todos.find(
-        (todo) => todo.id === this.editTodoForm.todo.id
-      );
-      todo.title = this.editTodoForm.todo.title; */
-      this.editTodoForm.show = false;
+      if(this.editTodoForm.todo.id !== 0){
+        const index = this.todos.findIndex(todo => todo.id === this.editTodoForm.todo.id);
+        this.todos[index].tittle = this.editTodoForm.todo.tittle;
+        /* const todo = this.todos.find(
+          (todo) => todo.id === this.editTodoForm.todo.id
+        );
+        todo.title = this.editTodoForm.todo.title; */
+        this.editTodoForm.show = false;
+      }
     },
     seeTodo(id) {
       this.editTodoForm.show = true;
       const todo = this.todos.find(todo => todo.id === id);
-      console.log(todo);
+      //console.log(todo);
       this.editTodoForm.todo = {...todo}
     }
   }
