@@ -1,18 +1,18 @@
 <script>
 import Alert from './components/Alert.vue';
 import Navbar from './components/Navbar.vue';
-import Modal from './components/Modal.vue';
 import TodoForm from './components/TodoForm.vue';
 import Todos from './components/Todos.vue';
 import Spinner from './components/Spinner.vue';
-import api from './api.js'
+import EditTodoForm from './components/EditTodoForm.vue';
+//import api from './api.js'
 export default {
   components: {
     Alert,
     Navbar,
     TodoForm,
     Todos,
-    Modal,
+    EditTodoForm,
     Spinner
 },
   data() {
@@ -46,7 +46,7 @@ export default {
     },
     fetchTodos() {
       this.isLoading = true;
-      fetch(`${api}/todos/`)
+      fetch('/api/todos/')
       .then(resp => resp.json())
       .then(data => {
         this.isLoading = false;
@@ -60,7 +60,7 @@ export default {
         this.alert.show = false;
         this.isPostingTodo = true;
         const todo = { tittle };
-        fetch('http://localhost:3000/todos/', {
+        fetch('/api/todos/', {
             method: 'POST',
             headers: {
               'Content-type': 'application/json' // Indicates the content 
@@ -79,7 +79,7 @@ export default {
     },
     removeTodo(id) {
       //this.isLoading = true;
-      fetch('http://localhost:3000/todos/' + id, {
+      fetch('/api/todos/' + id, {
         method: 'DELETE',
       }).then(() => {
         //this.isLoading = false;
@@ -89,22 +89,21 @@ export default {
     },
     updateTodo() {
       //this.isLoading = true;
-      const todo = this.editTodoForm.todo;
-      const id = this.editTodoForm.todo.id;
+      const { id, tittle } = this.editTodoForm.todo;
       /* const todo = this.todos.find(
         (todo) => todo.id === this.editTodoForm.todo.id
       ); */
-      fetch('http://localhost:3000/todos/' + id, {
+      fetch('/api/todos/' + id, {
         method: "PUT",
-        body: JSON.stringify(todo),
+        body: JSON.stringify({tittle}),
         headers: {
-            "Content-Type": "application/json",
+          "Content-Type": "application/json"
         }
       }).then(resp => resp.json())
       .then(data => {
         //this.isLoading = false;
         const index = this.todos.findIndex(todo => todo.id === data.id);
-        this.todos[index] = todo;
+        this.todos[index].tittle = tittle;
       })
       .catch(err => this.showAlert('Failing updating Todo...'));
       this.editTodoForm.show = false;
@@ -123,21 +122,12 @@ export default {
   <Navbar />
 
   <main class="container">
-    <Modal
-      :show="editTodoForm.show"
+    <EditTodoForm 
+      :modalShow="editTodoForm.show"
       @close="editTodoForm.show = false"
-      @update="updateTodo"
-    >
-      <template v-slot:header>
-        <h2>EDIT</h2>
-      </template>
-      <template v-slot:content>
-        <form>
-          <label>Todo Tittle:</label>
-          <input type="text" v-model="editTodoForm.todo.tittle" />
-        </form>
-      </template>
-    </Modal>
+      @submit="updateTodo"
+      v-model="editTodoForm.todo.tittle"
+    />
     <Alert 
       :message="alert.message"
       :type="alert.type"
@@ -162,15 +152,6 @@ export default {
 </template>
 
 <style scoped>
-form label {
-  font-size: 20px;
-  margin-right: 10px;
-}
-form input {
-  width: 80%;
-  border: solid 2px var(--accent-color);
-  padding: 10px;
-}
 .spinner {
   margin: auto;
   margin-top: 30px;

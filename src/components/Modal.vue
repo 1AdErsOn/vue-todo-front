@@ -1,68 +1,20 @@
 <script>
 //window.addEventListener('click' (e) => console.log(e.target));
-import BTN from './SeptupButton.vue';
-export default {
-  components: { BTN },
-  props:{
-    show:{
-      default: false
-    }
-  },
-  data() {
-    return {
-      clickListener: (e) => {
-        if (e.target === this.$refs.modal) {
-          this.$emit('close');
-        }
-      },
-      closeOnEscapeListener: (e) => {
-        //e.preventDefault();
-        if (e.key === "Escape") {
-          this.$emit('close');
-        }
-        /* if (e.key === "Enter") {
-          this.$emit('update');
-        } */
-      }
-    };
-  },
-  emits: ['close', 'update'],
-  mounted() {
-    window.addEventListener('click', this.clickListener);
-    window.addEventListener('keydown', this.closeOnEscapeListener);
-  },
-  beforeUnmount() {
-    window.removeEventListener('click', this.clickListener);
-    window.removeEventListener('keydown', this.closeOnEscapeListener);
-  }
-}
 </script>
 
 <template>
   <!-- The Modal -->
-  <div class="modal" ref="modal"  v-show="show">
+  <div class="modal" ref="modal">
     <!-- Modal content -->
     <div class="modal-content">
       <div class="modal-header">
-        <span class="close" @click="$emit('close')">&times;</span>
         <slot name="header" />
       </div>
       <div class="modal-body">
         <slot name="content" />
       </div>
       <div class="modal-footer">
-        <BTN
-          variant="warning"
-          @click="$emit('close')"
-        >
-          CLOSE
-        </BTN>
-        <BTN
-          variant="success"
-          @click="$emit('update')"
-        >
-          UPDATE
-        </BTN>
+        <slot name="footer" />
       </div>
     </div>
   </div>
@@ -107,21 +59,6 @@ export default {
 @keyframes animatetop {
   from {top:-300px; opacity:0}
   to {top:0; opacity:1}
-}
-
-/* The Close Button */
-.close {
-  color: white;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
 }
 
 .modal-header {
