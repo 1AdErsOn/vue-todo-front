@@ -21,7 +21,7 @@ export default {
       alert: {
         show: false,
         message: "",
-        type: "warning"
+        variant: "warning"
       },
       isLoading: false,
       isPostingTodo: false,
@@ -41,7 +41,7 @@ export default {
   methods: {
     showAlert(message, type = "danger") {
       this.alert.message = message;
-      this.alert.type = type;
+      this.alert.variant = type;
       this.alert.show = true;
     },
     fetchTodos() {
@@ -130,7 +130,7 @@ export default {
     />
     <Alert 
       :message="alert.message"
-      :type="alert.type"
+      :variant="alert.variant"
       :show="alert.show" 
       @close="alert.show = false"
     />

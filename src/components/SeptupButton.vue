@@ -1,30 +1,14 @@
 <script>
+import { backgroundColor } from '../mixins/backgroundColor.js';
 export default {
+  mixins: [backgroundColor],
   props: {
-    variant: {
-      required: true,
-      dafault: 'success',
-      validator(value) {
-        const options =['danger', 'warning', 'info', 'success', 'secondary'];
-        return options.includes(value)
-      }
-    },
     circle: {
       default: false,
       type: Boolean
     }
   },
   computed:{
-    backgroundColor(){
-      const options = {
-        danger: 'var(--danger-color)',
-        info: 'var(--info-color)',
-        warning: 'var(--warning-color)',
-        success: 'var(--accent-color)',
-        secondary: 'var(--success-color)'
-      };
-      return options[this.variant];
-    },
     applyCircleClass() {
       return this.circle;
     }

@@ -1,5 +1,7 @@
 <script>
+import { backgroundColor } from '../mixins/backgroundColor.js';
 export default {
+  mixins: [backgroundColor],
   props: {
     message:{
       required: true,
@@ -9,23 +11,6 @@ export default {
       required: true,
       type: Boolean
     },
-    type: {
-      dafault: 'danger',
-      validator(value) {
-        const options = ['danger', 'warning', 'info'];
-        return options.includes(value);
-      }
-    }
-  },
-  computed:{
-    backgroundColor(){
-      const options = {
-        danger: 'var(--danger-color)',
-        info: 'var(--info-color)',
-        warning: 'var(--warning-color)'
-      };
-      return options[this.type];
-    }
   },
   emits: ['close'],
   /* methods: {
