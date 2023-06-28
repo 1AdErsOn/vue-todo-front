@@ -14,29 +14,24 @@ export default {
   },
   data() {
     return {
-      clickListener: (e) => {
-        if (e.target === this.$refs.modal) {
-          this.$emit('close');
-        }
-      },
       closeOnEscapeListener: (e) => {
-        //e.preventDefault();
         if (e.key === "Escape") {
           this.$emit('close');
         }
         /* if (e.key === "Enter") {
-          this.$emit('update');
+          e.preventDefault()
+          this.$emit('submit', this.todoTitle);
         } */
-      }
+      },
+      todoTitle: ''
     };
   },
-  emits: ['close', 'update:modelValue', 'submit'],
+  emits: ['close', 'submit'],
   mounted() {
-    window.addEventListener('click', this.clickListener);
+    //this.todoTitle = this.modelValue;
     window.addEventListener('keydown', this.closeOnEscapeListener);
   },
   beforeUnmount() {
-    window.removeEventListener('click', this.clickListener);
     window.removeEventListener('keydown', this.closeOnEscapeListener);
   }
 }
@@ -55,7 +50,7 @@ export default {
         <input 
           type="text"
           :value="modelValue"
-          @input="$emit('update:modelValue', $event.target.value)"
+          @input="todoTitle = $event.target.value"
         />
       </form>
     </template>
@@ -68,7 +63,7 @@ export default {
       </BTN>
       <BTN
         variant="success"
-        @click="$emit('submit', modelValue)"
+        @click="$emit('submit', todoTitle)"
       >
         UPDATE
       </BTN>

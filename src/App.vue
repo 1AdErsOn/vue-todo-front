@@ -124,9 +124,9 @@ export default {
   <main class="container">
     <EditTodoForm 
       :modalShow="editTodoForm.show"
+      :modelValue="editTodoForm.todo.tittle"
       @close="editTodoForm.show = false"
       @submit="updateTodo"
-      v-model="editTodoForm.todo.tittle"
     />
     <Alert 
       :message="alert.message"
@@ -143,9 +143,9 @@ export default {
     <section>
       <Spinner class="spinner" v-if="isLoading" />
       <Todos 
-      :todos="todos"
-      @delete="removeTodo"
-      @edit="seeTodo"
+        :todos="todos"
+        @delete="removeTodo"
+        @edit="seeTodo"
       />
     </section>
   </main>
