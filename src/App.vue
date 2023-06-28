@@ -87,9 +87,9 @@ export default {
       })
       .catch(err => this.showAlert('Failing removing Todo...'));
     },
-    updateTodo() {
+    updateTodo(tittle) {
       //this.isLoading = true;
-      const { id, tittle } = this.editTodoForm.todo;
+      const { id } = this.editTodoForm.todo;
       /* const todo = this.todos.find(
         (todo) => todo.id === this.editTodoForm.todo.id
       ); */

@@ -68,7 +68,7 @@ export default {
       </BTN>
       <BTN
         variant="success"
-        @click="$emit('submit')"
+        @click="$emit('submit', modelValue)"
       >
         UPDATE
       </BTN>
