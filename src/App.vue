@@ -5,6 +5,7 @@ import Modal from './components/Modal.vue';
 import TodoForm from './components/TodoForm.vue';
 import Todos from './components/Todos.vue';
 import Spinner from './components/Spinner.vue';
+import api from './api.js'
 export default {
   components: {
     Alert,
@@ -34,6 +35,7 @@ export default {
     }
   },
   created() {
+    //console.log(import.meta.env.VITE_API_URL);
     this.fetchTodos();
   },
   methods: {
@@ -44,7 +46,7 @@ export default {
     },
     fetchTodos() {
       this.isLoading = true;
-      fetch('http://localhost:8080/todos/')
+      fetch(`${api}/todos/`)
       .then(resp => resp.json())
       .then(data => {
         this.isLoading = false;
@@ -58,7 +60,7 @@ export default {
         this.alert.show = false;
         this.isPostingTodo = true;
         const todo = { tittle };
-        fetch('http://localhost:8080/todos/', {
+        fetch('http://localhost:3000/todos/', {
             method: 'POST',
             headers: {
               'Content-type': 'application/json' // Indicates the content 
@@ -77,7 +79,7 @@ export default {
     },
     removeTodo(id) {
       //this.isLoading = true;
-      fetch('http://localhost:8080/todos/' + id, {
+      fetch('http://localhost:3000/todos/' + id, {
         method: 'DELETE',
       }).then(() => {
         //this.isLoading = false;
@@ -92,7 +94,7 @@ export default {
       /* const todo = this.todos.find(
         (todo) => todo.id === this.editTodoForm.todo.id
       ); */
-      fetch('http://localhost:8080/todos/' + id, {
+      fetch('http://localhost:3000/todos/' + id, {
         method: "PUT",
         body: JSON.stringify(todo),
         headers: {
