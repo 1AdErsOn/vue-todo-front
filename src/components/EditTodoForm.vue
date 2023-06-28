@@ -1,9 +1,18 @@
-<script>
-import Modal from './Modal.vue';
-import BTN from './SeptupButton.vue';
-export default {
-  components: { Modal, BTN },
-  props:{
+<script setup>
+  import Modal from './Modal.vue';
+  import BTN from './SeptupButton.vue';
+  import { ref, onMounted, onBeforeUnmount } from 'vue';
+  const todoTittle = ref('');
+  const closeOnEscapeListener = (e) =>{
+    if (e.key === "Escape") {
+      emit('close');
+    }
+    /* if (e.key === "Enter") {
+      e.preventDefault()
+      this.$emit('submit', this.todoTitle);
+    } */
+  }
+  const prop = defineProps({
     modalShow:{
       default: false
     },
@@ -11,30 +20,14 @@ export default {
       default: '',
       type: String
     }
-  },
-  data() {
-    return {
-      closeOnEscapeListener: (e) => {
-        if (e.key === "Escape") {
-          this.$emit('close');
-        }
-        /* if (e.key === "Enter") {
-          e.preventDefault()
-          this.$emit('submit', this.todoTitle);
-        } */
-      },
-      todoTitle: ''
-    };
-  },
-  emits: ['close', 'submit'],
-  mounted() {
-    //this.todoTitle = this.modelValue;
-    window.addEventListener('keydown', this.closeOnEscapeListener);
-  },
-  beforeUnmount() {
-    window.removeEventListener('keydown', this.closeOnEscapeListener);
-  }
-}
+  });
+  const emit = defineEmits(['close', 'submit']);
+  onMounted(() => {
+    window.addEventListener('keydown', closeOnEscapeListener);
+  })
+  onBeforeUnmount(() => {
+    window.removeEventListener('keydown', closeOnEscapeListener);
+  })
 </script>
 
 <template>
@@ -50,7 +43,7 @@ export default {
         <input 
           type="text"
           :value="modelValue"
-          @input="todoTitle = $event.target.value"
+          @input="todoTittle = $event.target.value"
         />
       </form>
     </template>
@@ -63,7 +56,7 @@ export default {
       </BTN>
       <BTN
         variant="success"
-        @click="$emit('submit', todoTitle)"
+        @click="$emit('submit', todoTittle)"
       >
         UPDATE
       </BTN>

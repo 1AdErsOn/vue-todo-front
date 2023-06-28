@@ -1,19 +1,32 @@
-<script>
-import { backgroundColor } from '../mixins/backgroundColor.js';
-export default {
-  mixins: [backgroundColor],
-  props: {
+<script setup>
+  import { computed } from 'vue';
+  const prop = defineProps({
     circle: {
       default: false,
       type: Boolean
+    },
+    variant: {
+      required: false,
+      dafault: 'success',
+      validator(value) {
+        const options =['danger', 'warning', 'info', 'success', 'secondary'];
+        return options.includes(value)
+      }
     }
-  },
-  computed:{
-    applyCircleClass() {
-      return this.circle;
-    }
-  },
-}
+  })
+  const backgroundColor = computed(() => {
+    const options = {
+      danger: 'var(--danger-color)',
+      info: 'var(--info-color)',
+      warning: 'var(--warning-color)',
+      success: 'var(--accent-color)',
+      secondary: 'var(--success-color)'
+    };
+    return options[prop.variant];
+  });
+  const applyCircleClass = computed(() =>{
+    return prop.circle;
+  });
 </script>
 <template>
   <button  

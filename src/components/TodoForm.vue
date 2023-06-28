@@ -1,21 +1,15 @@
-<script>
-import BTN from './SeptupButton.vue';
-import Spinner from "./Spinner.vue";
-export default {
-  components: { BTN, Spinner },
-  props: {
+<script setup>
+  import BTN from './SeptupButton.vue';
+  import Spinner from "./Spinner.vue";
+  import { ref } from 'vue';
+  const todoTitle = ref('');
+  const prop = defineProps({
     isLoading: {
       default: false,
       type: Boolean
     },
-  },
-  data() {
-    return {
-      todoTitle: ''
-    }
-  },
-  emits : ['submit']
-}
+  });
+  const emit = defineEmits(['submit']);
 </script>
 <template>
   <form class="add-todo-form">

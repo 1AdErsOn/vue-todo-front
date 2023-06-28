@@ -1,16 +1,14 @@
-<script>
-import BTN from './SeptupButton.vue';
-export default {
-  components: { BTN },
-  props:{
+<script setup>
+  import BTN from './SeptupButton.vue';
+  const prop = defineProps({
     todos: {
       required: true,
       type: Array
     }
-  },
-  emits: ['delete', 'edit']
-}
+  });
+  const emit = defineEmits(['delete', 'edit'])
 </script>
+
 <template>
   <div v-for="data of todos" class="todo" :key="data.id">
     <p>{{ data.tittle }}</p>
@@ -32,6 +30,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style scoped>
 .todo {
   display: flex;
