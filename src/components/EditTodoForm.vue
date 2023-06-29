@@ -3,6 +3,7 @@
   import BTN from './SeptupButton.vue';
   import { ref, onMounted, onBeforeUnmount } from 'vue';
   const todoTittle = ref('');
+  const modal = ref(null);
   const closeOnEscapeListener = (e) =>{
     if (e.key === "Escape") {
       emit('close');
@@ -12,7 +13,14 @@
       this.$emit('submit', this.todoTitle);
     } */
   }
-  const prop = defineProps({
+  /* const clickListener = (e) => {
+    console.log(e.target);
+    console.log(modal.value);
+    if (e.target === modal.value) {
+      emit('close');
+    }
+  } */
+  const props = defineProps({
     modalShow:{
       default: false
     },
@@ -24,14 +32,16 @@
   const emit = defineEmits(['close', 'submit']);
   onMounted(() => {
     window.addEventListener('keydown', closeOnEscapeListener);
+    //window.addEventListener('click', clickListener);
   })
   onBeforeUnmount(() => {
     window.removeEventListener('keydown', closeOnEscapeListener);
+    //window.removeEventListener('click', clickListener);
   })
 </script>
 
 <template>
-  <Modal
+  <Modal ref="modal"
     v-show="modalShow"
   >
     <template v-slot:header>

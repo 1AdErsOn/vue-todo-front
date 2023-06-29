@@ -1,6 +1,6 @@
 <script setup>
   import BTN from './SeptupButton.vue';
-  const prop = defineProps({
+  const props = defineProps({
     todos: {
       required: true,
       type: Array

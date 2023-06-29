@@ -3,7 +3,7 @@
   import Spinner from "./Spinner.vue";
   import { ref } from 'vue';
   const todoTitle = ref('');
-  const prop = defineProps({
+  const props = defineProps({
     isLoading: {
       default: false,
       type: Boolean

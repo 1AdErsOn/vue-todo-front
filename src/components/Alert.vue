@@ -1,7 +1,6 @@
 <script setup>
-//import { backgroundColor } from '../mixins/backgroundColor.js';
-  import { computed } from 'vue';
-  const prop = defineProps({
+import { useBackgroudColor, backgroundColorProps } from '../composables/backgroundColor.js';
+  const props = defineProps({
     message:{
       required: true,
       type: String
@@ -10,26 +9,10 @@
       required: true,
       type: Boolean
     },
-    variant: {
-      required: false,
-      dafault: 'success',
-      validator(value) {
-        const options =['danger', 'warning', 'info', 'success', 'secondary'];
-        return options.includes(value)
-      }
-    }
+    ...backgroundColorProps
   });
   const emit = defineEmits(['close']);
-  const backgroundColor = computed(() => {
-    const options = {
-      danger: 'var(--danger-color)',
-      info: 'var(--info-color)',
-      warning: 'var(--warning-color)',
-      success: 'var(--accent-color)',
-      secondary: 'var(--success-color)'
-    };
-    return options[prop.variant];
-  });
+  const backgroundColor = useBackgroudColor(props);
   const closeAlert = () => {
     emit('close');
   }
