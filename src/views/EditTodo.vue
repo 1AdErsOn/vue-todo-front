@@ -19,11 +19,17 @@
   const { data:todo, isLoading } = useFetch(`/api/todos/${props.id}`, {
     onError: () =>showAlert('Failed loading Todo')
   });
-  const submit = (tittle) => {
+  const submit = () => {
+    const send = {
+      tittle: todo.value.tittle,
+      description: todo.value.description,
+      date: todo.value.date,
+    }
+    //console.log(send);
     loading.value = true;
     fetch(`/api/todos/${props.id}`, {
       method: "PUT",
-      body: JSON.stringify({tittle}),
+      body: JSON.stringify(send),
       headers: {
         "Content-Type": "application/json"
       }
@@ -52,17 +58,21 @@
   <form>
     <div class="input-group mt-3">
       <span class="input-group-text">Todo Tittle</span>
-      <input 
-        type="text"
-        class="form-control"
-        v-model="todo.tittle"
-      />
+      <input type="text" class="form-control" v-model="todo.tittle"/>
+    </div>
+    <div class="input-group mt-3">
+      <span class="input-group-text">Todo Descripcion</span>
+      <input type="text" class="form-control" v-model="todo.description"/>
+    </div>
+    <div class="input-group mt-3">
+      <span class="input-group-text">Todo Date</span>
+      <input type="date" class="form-control" v-model="todo.date"/>
+    </div>
       <!-- :value="modelValue"
       @input="todoTittle = $event.target.value" -->
-      <button type="submit" class="btn btn-outline-secondary" @click.prevent="submit(todo.tittle)">
+      <button type="submit" class="btn btn-outline-success mt-3" @click.prevent="submit()">
         Submit
       </button>
-    </div>
   </form>
 </template>
 

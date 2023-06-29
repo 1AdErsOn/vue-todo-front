@@ -48,11 +48,13 @@
     <div>{{ alert.message }}</div>
     <button type="button" class="btn-close" @click="alert.show = false"></button>
   </div>
-  <table class="table table-hover mt-3">
-    <thead class="table-dark">
+  <table class="table table-success mt-3">
+    <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col">Todo Tittle</th>
+        <th scope="col">Descripcion</th>
+        <th scope="col">Fecha</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>

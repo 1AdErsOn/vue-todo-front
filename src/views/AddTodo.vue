@@ -6,7 +6,11 @@
   const props = defineProps(['id']);
   const router = useRouter();
   const isLoading = ref(false);
-  const todoTitle = ref('');
+  const todo = reactive({
+    tittle: '',
+    description: '',
+    date: ''
+  })
   const alert = reactive({
     show: false,
     message: "",
@@ -16,12 +20,11 @@
     alert.show = true;
     alert.message = message;
   }
-  const addTodo = (tittle) => {
+  const addTodo = () => {
     //console.log(tittle);
-    if (tittle !== '') {
+    if (todo.tittle !== '' && todo.description !== '' && todo.date !== '') {
       alert.show = false;
       isLoading.value = true;
-      const todo = { tittle };
       fetch('/api/todos/', {
           method: 'POST',
           headers: {
@@ -32,10 +35,10 @@
       .then(data => {
         router.push('/');
       }) //this.fetchTodos();
-      .catch(err => showAlert('Failing creating Todo...' + toString(err)))
+      .catch(err => showAlert('Failed creating Todo...' + err))
       .finally(() => isLoading.value = false)
     } else {
-      showAlert('Tittle Field is Required');
+      showAlert('All Field is Required');
     }
     //this.todos = this.todos.concat([this.todoTitle]);
   }
@@ -53,8 +56,10 @@
   <Spinner v-if="isLoading" />
   <form>
     <div class="input-group mt-3">
-      <input class="form-control" v-model="todoTitle" type="text" placeholder="Todo tittle"><!--so important-->
-      <button type="submit" class="btn btn-outline-primary" @click.prevent="addTodo(todoTitle)">
+      <input class="form-control" v-model="todo.tittle" type="text" placeholder="Todo tittle"><!--so important-->
+      <input class="form-control" v-model="todo.description" type="text" placeholder="Todo descripcion">
+      <input class="form-control" v-model="todo.date" type="date">
+      <button type="submit" class="btn btn-outline-primary" @click.prevent="addTodo">
         Add Todo
       </button>
     </div>

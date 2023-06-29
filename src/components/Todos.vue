@@ -12,6 +12,8 @@
   <tr v-for="data of todos" class="todo" :key="data.id">
     <th scope="row">{{ data.id }}</th>
     <td>{{ data.tittle }}</td>
+    <td>{{ data.description }}</td>
+    <td>{{ data.date }}</td>
     <td>
       <div class="btn-group">
         <button type="button" class="btn btn-info" @click="$router.push(`/edit/${data.id}`)">
