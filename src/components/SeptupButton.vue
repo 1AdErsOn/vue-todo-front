@@ -1,20 +1,20 @@
 <script setup>
   import { computed } from 'vue';
-  import { useBackgroudColor, backgroundColorProps } from '../composables/backgroundColor.js';
+  //import { useBackgroudColor, backgroundColorProps } from '../composables/backgroundColor.js';
   const props = defineProps({
     circle: {
       default: false,
       type: Boolean
-    },
-    ...backgroundColorProps
+    }
+    //...backgroundColorProps
   })
-  const backgroundColor = useBackgroudColor(props);
+  //const backgroundColor = useBackgroudColor(props);
   const applyCircleClass = computed(() =>{
     return props.circle;
   });
 </script>
 <template>
-  <button  
+  <button 
     :style="{ backgroundColor }"
     :class="{ circle:applyCircleClass }"
   >
@@ -22,7 +22,7 @@
   </button>
 </template>
 <style scoped>
-button {
+/* button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,7 +31,7 @@ button {
   padding: 10px;
   font-size: 30px;
   cursor: pointer;
-}
+} */
 .circle {
   border-radius: 50%;
 }

@@ -6,6 +6,10 @@ import Navbar from '@/components/Navbar.vue';
   <Navbar />
 
   <main class="container">
-    <RouterView />
+    <div class="card mt-3">
+      <div class="card-body">
+        <RouterView />
+      </div>
+    </div>
   </main>
 </template>

@@ -2,21 +2,31 @@
 
 </script>
 <template>
-  <nav class="navbar">
-    <div class="logo">
-      <img src="../assets/logo.svg" alt="Logo" width="50">
-    <div class="brand">Todo List App</div>
-    </div>
-    <div class="links">
-      <ul>
-        <li><RouterLink to="/">Home</RouterLink></li>
-        <li><RouterLink to="/about">About</RouterLink></li>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="../assets/logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+        Todo List App
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <RouterLink class="nav-link active" aria-current="page" to="/">Home</RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink class="nav-link" to="/add">Add Todo</RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink class="nav-link" to="/about">About</RouterLink>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
       </ul>
     </div>
   </nav>
 </template>
 <style scoped>
-.navbar{
+/* .navbar{
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -61,5 +71,5 @@ a.router-link-active {
   .links a {
     font-size: 20px;
   }
-}
+} */
 </style>

@@ -12,10 +12,11 @@
   const emit = defineEmits(['submit']);
 </script>
 <template>
-  <form class="add-todo-form">
-    <input v-model="todoTitle" type="text" placeholder="Todo tittle"><!--so important-->
-    <div>
+  <form>
+    <div class="input-group mb-3 mt-3">
+      <input class="form-control" v-model="todoTitle" type="text" placeholder="Todo tittle"><!--so important-->
       <BTN 
+        class="btn btn-outline-primary"
         :disabled="isLoading"
         @click.prevent="$emit('submit', todoTitle)"
         variant="success"
@@ -28,7 +29,7 @@
   </form>
 </template>
 <style scoped>
-form {
+/* form {
   display: flex;
   justify-content: space-between;
 }
@@ -36,5 +37,5 @@ form input {
   width: 80%;
   border: solid 2px var(--accent-color);
   padding: 10px;
-}
+} */
 </style>

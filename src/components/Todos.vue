@@ -1,5 +1,4 @@
 <script setup>
-  import BTN from './SeptupButton.vue';
   const props = defineProps({
     todos: {
       required: true,
@@ -10,29 +9,24 @@
 </script>
 
 <template>
-  <div v-for="data of todos" class="todo" :key="data.id">
-    <p>{{ data.tittle }}</p>
-    <div>
-      <BTN 
-        circle
-        @click="$router.push(`/edit/${data.id}`)"
-        variant="info"
-      >
-        <img src="../assets/pensil.svg" alt="Logo" width="20">
-      </BTN>
-      <BTN 
-        circle
-        @click="$emit('delete', data.id)"
-        variant="danger"
-      >
-        <img src="../assets/trash.svg" alt="Logo" width="20">
-      </BTN>
-    </div>
-  </div>
+  <tr v-for="data of todos" class="todo" :key="data.id">
+    <th scope="row">{{ data.id }}</th>
+    <td>{{ data.tittle }}</td>
+    <td>
+      <div class="btn-group">
+        <button type="button" class="btn btn-info" @click="$router.push(`/edit/${data.id}`)">
+          <img src="../assets/pensil.svg" alt="Logo" width="20">
+        </button>
+        <button type="button" class="btn btn-danger" @click="$emit('delete', data.id)">
+          <img src="../assets/trash.svg" alt="Logo" width="20">
+        </button>
+      </div>
+    </td>
+  </tr>
 </template>
 
 <style scoped>
-.todo {
+/* .todo {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -43,5 +37,5 @@
 }
 .todo > div {
   display: flex;
-}
+} */
 </style>
