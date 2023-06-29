@@ -6,9 +6,10 @@
   import Spinner from './components/Spinner.vue';
   import EditTodoForm from './components/EditTodoForm.vue';
   import { ref, reactive } from 'vue';
+  import { useFetch } from './composables/fetch.js';
   //import api from './api.js'
-  const todos = ref([]);
-  const isLoading = ref(false);
+  //const todos = ref([]);
+  //const isLoading = ref(false);
   const isPostingTodo = ref(false);
   const alert = reactive({
     show: false,
@@ -23,27 +24,18 @@
     }
   });
   const showAlert = (message, type = "danger") => {
+    alert.show = true;
     alert.message = message;
     alert.variant = type;
-    alert.show = true;
   }
   const seeTodo = (id) => {
     editTodoForm.show = true;
     const todo = todos.value.find(todo => todo.id === id);
-    //console.log(todo);
     editTodoForm.todo = {...todo}
   }
-  const fetchTodos = () => {
-    isLoading.value = true;
-    fetch('/api/todos/')
-    .then(resp => resp.json())
-    .then(data => {
-      isLoading.value = false;
-      todos.value = data;
-    })
-    .catch(err => showAlert('Failing loading Todos...' + toString(err)));
-    //console.log(todos);
-  }
+  const { data:todos, isLoading } = useFetch('/api/todos', {
+    onError: () =>showAlert('Failed loading Todos')
+  });
   const addTodo = (tittle) => {
     if (tittle !== '') {
       alert.show = false;
@@ -97,7 +89,7 @@
     .catch(err => showAlert('Failing updating Todo...' + toString(err)));
     editTodoForm.show = false;
   }
-  fetchTodos();
+  //fetchTodos();
 </script>
 
 <template>
