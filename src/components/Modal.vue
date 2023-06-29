@@ -1,5 +1,41 @@
 <script>
-//window.addEventListener('click' (e) => console.log(e.target));
+  //window.addEventListener('click' (e) => console.log(e.target));
+  /*import { ref, onMounted, onBeforeUnmount } from 'vue';
+  const todoTittle = ref('');
+  const closeOnEscapeListener = (e) =>{
+    if (e.key === "Escape") {
+      emit('close');
+    }*/
+    /* if (e.key === "Enter") {
+      e.preventDefault()
+      this.$emit('submit', this.todoTitle);
+    } */
+  //}
+  /* const clickListener = (e) => {
+    console.log(e.target);
+    console.log(modal.value);
+    if (e.target === modal.value) {
+      emit('close');
+    }
+  } */
+  /* const props = defineProps({
+    modalShow:{
+      default: false
+    },
+    modelValue: {
+      default: '',
+      type: String
+    }
+  });
+  const emit = defineEmits(['close', 'submit']);
+  onMounted(() => {
+    window.addEventListener('keydown', closeOnEscapeListener);
+    //window.addEventListener('click', clickListener);
+  })
+  onBeforeUnmount(() => {
+    window.removeEventListener('keydown', closeOnEscapeListener);
+    //window.removeEventListener('click', clickListener);
+  }) */
 </script>
 
 <template>

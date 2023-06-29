@@ -3,7 +3,6 @@
   import TodoForm from '@/components/TodoForm.vue';
   import Todos from '@/components/Todos.vue';
   import Spinner from '@/components/Spinner.vue';
-  import EditTodoForm from '@/components/EditTodoForm.vue';
   import { ref, reactive } from 'vue';
   import { useFetch } from '@/composables/fetch.js';
   //import api from './api.js'
@@ -15,23 +14,16 @@
     message: "",
     variant: "warning"
   });
-  const editTodoForm = reactive({
-    show: false,
-    todo: {
-      id: 0,
-      tittle: ""
-    }
-  });
   const showAlert = (message, type = "danger") => {
     alert.show = true;
     alert.message = message;
     alert.variant = type;
   }
-  const seeTodo = (id) => {
+  /* const seeTodo = (id) => {
     editTodoForm.show = true;
     const todo = todos.value.find(todo => todo.id === id);
     editTodoForm.todo = {...todo}
-  }
+  } */
   const { data:todos, isLoading } = useFetch('/api/todos', {
     onError: () =>showAlert('Failed loading Todos')
   });
@@ -67,38 +59,17 @@
     })
     .catch(err => showAlert('Failing removing Todo...' + toString(err)));
   }
-  const updateTodo = (tittle) => {
-    //this.isLoading = true;
-    const { id } = editTodoForm.todo;
-    /* const todo = this.todos.find(
-      (todo) => todo.id === this.editTodoForm.todo.id
-    ); */
-    fetch('/api/todos/' + id, {
-      method: "PUT",
-      body: JSON.stringify({tittle}),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(resp => resp.json())
-    .then(data => {
-      //this.isLoading = false;
-      const index = todos.value.findIndex(todo => todo.id === data.id);
-      todos.value[index].tittle = data.tittle;
-    })
-    .catch(err => showAlert('Failing updating Todo...' + toString(err)));
-    editTodoForm.show = false;
-  }
   //fetchTodos();
 </script>
 
 <template>
 
-  <EditTodoForm 
+  <!-- <EditTodoForm 
     :modalShow="editTodoForm.show"
     :modelValue="editTodoForm.todo.tittle"
     @close="editTodoForm.show = false"
     @submit="updateTodo"
-  />
+  /> -->
   <Alert 
     :message="alert.message"
     :variant="alert.variant"
@@ -116,14 +87,10 @@
     <Todos 
       :todos="todos"
       @delete="removeTodo"
-      @edit="seeTodo"
     />
   </section>
 </template>
 
 <style scoped>
-.spinner {
-  margin: auto;
-  margin-top: 30px;
-}
+
 </style>

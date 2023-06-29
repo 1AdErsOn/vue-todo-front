@@ -6,7 +6,7 @@
       type: Array
     }
   });
-  const emit = defineEmits(['delete', 'edit'])
+  const emit = defineEmits(['delete'])
 </script>
 
 <template>
@@ -15,7 +15,7 @@
     <div>
       <BTN 
         circle
-        @click="$emit('edit', data.id)"
+        @click="$router.push(`/edit/${data.id}`)"
         variant="info"
       >
         <img src="../assets/pensil.svg" alt="Logo" width="20">

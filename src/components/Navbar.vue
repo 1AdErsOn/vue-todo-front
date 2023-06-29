@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: space-between;
   background: var(--navbar-color);
-  padding: 20px;
+  padding: 10px;
   margin-bottom: 30px;
 }
 .brand {
@@ -35,6 +35,7 @@
   display: flex;
   align-items: center;
   padding: 20px;
+  margin: 0;
   list-style: none;
 }
 .links a {
@@ -49,6 +50,9 @@ a.router-link-active {
 @media (max-width: 680px) {
   .navbar {
     display: block;
+  }
+  .links{
+    margin-top: 10px;
   }
   .links ul {
     margin: 0;
